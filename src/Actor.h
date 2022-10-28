@@ -15,10 +15,6 @@ namespace FSR {
 
 		inline const std::pair<unsigned int, unsigned int>& GetLocation() const { return m_Location; }
 		inline const unsigned int& GetSize() const { return m_Size; }
-		inline void Lock() { m_LockTransform = true; }
-		inline void UnLock() { m_LockTransform = false; }
-		inline bool IsLocked() const noexcept { return m_LockTransform; }
-		
 		
 		virtual void AddToLocation(std::pair<unsigned int, unsigned int> offset);
 		virtual void MoveToLocation(std::pair<unsigned int, unsigned int> location);
@@ -34,7 +30,6 @@ namespace FSR {
 	private:
 		std::pair<unsigned int, unsigned int> m_Location;
 		unsigned int m_Size;
-		bool m_LockTransform;
 	};
 
 }

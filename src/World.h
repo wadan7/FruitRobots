@@ -26,6 +26,8 @@ namespace FSR {
 		Actor* GetActorInLocation(std::pair<unsigned int, unsigned int> location);
 		void OnCollision(Actor* first, Actor* second);
 		void DrawWorld();
+		void CheckCharge(std::vector<Robot*> robots);
+		std::pair<unsigned int, unsigned int> GetFreeChargeLocation();
 
 		template<typename... Args>
 		void SignContract(const std::pair<unsigned int, unsigned int>& location,Args... args);

@@ -73,10 +73,6 @@ namespace FSR {
 			}
 			m_ClosedList.push_back(current);
 		}
-		if (current->Location == destination)
-		{
-			
-		}
 		CleanUp();
 		return path_t();
 	}

@@ -87,6 +87,8 @@ namespace FSR {
 	
 	void World::OnTick()
 	{
+		CheckCharge({(Robot*)m_Actors[0], (Robot*)m_Actors[1] , (Robot*)m_Actors[2] , (Robot*)m_Actors[3]});
+
 		for (auto actorItrator = m_Actors.begin(); actorItrator != m_Actors.end(); actorItrator++)
 		{
 			Actor* actor = *actorItrator;
@@ -167,5 +169,49 @@ namespace FSR {
 			std::cout << '\n';
 		}
 
+		std::cout << '\n';
+		std::cout << "        [ Robot 1 ] "  << (((Robot*)m_Actors[0])->IsBusy() ? "Busy  " : "Free  ") << "Charge: " << ((Robot*)m_Actors[0])->GetCurrentCharge() << '\n';
+		std::cout << "        [ Robot 3 ] " << (((Robot*)m_Actors[1])->IsBusy() ? "Busy  " : "Free  ") << "Charge: " << ((Robot*)m_Actors[1])->GetCurrentCharge() << '\n';
+		std::cout << "        [ Robot 5 ] " << (((Robot*)m_Actors[2])->IsBusy() ? "Busy  " : "Free  ") << "Charge: " << ((Robot*)m_Actors[2])->GetCurrentCharge() << '\n';
+		std::cout << "        [ Robot 7 ] " << (((Robot*)m_Actors[3])->IsBusy() ? "Busy  " : "Free  ") << "Charge: " << ((Robot*)m_Actors[3])->GetCurrentCharge() << '\n';
+		std::cout << '\n';
+
+	}
+	void World::CheckCharge(std::vector<Robot*> robots)
+	{
+		//RCM
+		// Set Robot Target To Any Free Charger Location if needs to charge
+		std::sort(robots.begin(), robots.end(), [](const Robot* left, const Robot* right)
+			{
+				return left->GetCurrentCharge() < right->GetCurrentCharge();
+			});
+		
+		for (Robot* robot : robots)
+		{
+			if (!robot->IsBusy() && !robot->IsGoingToCharge() && (robot->GetCurrentCharge() / robot->GetMaxCharge() < 0.6f))
+			{
+				std::pair chargerLocation = GetFreeChargeLocation();
+				if (chargerLocation.first == 0 && chargerLocation.second == 0)
+					return;
+				robot->SetTargetLocation(chargerLocation);
+				robot->NeedToCharge();
+				
+			}
+		}
+
+
+	}
+	std::pair<unsigned int, unsigned int> World::GetFreeChargeLocation()
+	{
+		for (std::vector<Actor*>::iterator it = m_Actors.begin() + 4; it != m_Actors.begin() + 6; it++)
+		{
+			Charger* charger = static_cast<Charger*>(*it);
+			if (charger->IsFree())
+			{
+				return charger->GetLocation();
+				charger->SetBusy();
+			}
+		}
+		return { 0, 0 };
 	}
 }

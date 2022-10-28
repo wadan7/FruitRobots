@@ -3,7 +3,7 @@
 
 namespace FSR {
 	Robot::Robot(unsigned int size, unsigned int speed, PathPlanner* pp)
-		:Actor("Robot", size, { 0, 0 }), m_Speed((float)speed), m_Charge(100), m_MaxCharge(100),m_Busy(false),m_Payload(size), m_PathPlanner(pp)
+		:Actor("Robot", size, { 0, 0 }), m_Speed((float)speed), m_Charge(100), m_MaxCharge(100),m_Busy(false),m_NeedToCharge(false), m_Payload(size), m_PathPlanner(pp)
 	{
 	}
 
@@ -34,6 +34,14 @@ namespace FSR {
 			else
 				m_Busy = true;
 			
+		}
+		else if (entityName == "Charger")
+		{
+			m_Busy = false;
+			if (m_Charge == m_MaxCharge)
+			{
+				ReSpawn();
+			}
 		}
 	}
 
@@ -81,6 +89,7 @@ namespace FSR {
 	void Robot::ReSpawn()
 	{
 		MoveActorToLocation(m_ReSpawnLocation);
+		m_NeedToCharge = false;
 	}
 	void Robot::SetRespawnLocation(std::pair<unsigned int, unsigned int> location)
 	{

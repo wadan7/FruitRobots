@@ -8,7 +8,6 @@ namespace FSR {
 
 	struct Map
 	{
-		unsigned Width = 64, Height = 64;
 		std::vector<std::vector<unsigned char>> Data;
 
 		Map(const std::string& path)

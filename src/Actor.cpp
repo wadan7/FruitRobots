@@ -4,7 +4,7 @@ namespace FSR {
 
 
 	Actor::Actor(const std::string& name, unsigned int size, std::pair<unsigned int, unsigned int> location)
-		:Entity(name), m_Location(location), m_Size(size), m_LockTransform(false)
+		:Entity(name), m_Location(location), m_Size(size)
 	{
 	}
 
@@ -14,11 +14,7 @@ namespace FSR {
 
 	bool Actor::AddToActorLocation(std::pair<unsigned int, unsigned int> offset)
 	{
-		if (IsLocked())
-			return false;
 
-		m_Location.first += offset.first;
-		m_Location.second += offset.second;
 
 		return true;
 	}
@@ -30,9 +26,6 @@ namespace FSR {
 
 	bool Actor::MoveActorToLocation(std::pair<unsigned int, unsigned int> location)
 	{
-		if (IsLocked())
-			return false;
-
 		m_Location.first = location.first;
 		m_Location.second = location.second;
 

@@ -8,6 +8,8 @@ namespace FSR {
 
 	void Charger::OnCollision(CollisionDescriptor collisionDescriptor)
 	{
+		m_Free = false;
+
 		Entity* entt = collisionDescriptor.GetCollidedEntity();
 		std::string entityName = entt->GetName();
 		if (entityName == "Robot")

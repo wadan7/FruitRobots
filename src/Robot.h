@@ -26,7 +26,8 @@ namespace FSR {
 
 		inline void SetTargetLocation(std::pair<unsigned int, unsigned int> location) noexcept { m_Target = location; m_Busy = true; }
 		inline bool IsBusy() const noexcept { return m_Busy; }
-
+		inline void NeedToCharge() { m_NeedToCharge = true; }
+		inline bool IsGoingToCharge() const noexcept { return m_NeedToCharge; }
 		inline virtual unsigned char GetSymbol() const noexcept { return 'R'; }
 
 	private:
@@ -36,10 +37,10 @@ namespace FSR {
 		float m_Charge, m_MaxCharge;
 		unsigned int m_Payload;
 		float m_Speed;
+		std::pair<unsigned int, unsigned int> m_ReSpawnLocation;
+		bool m_Busy, m_NeedToCharge;
+		std::pair<unsigned int, unsigned int> m_Target;
 		PathPlanner* m_PathPlanner;
 
-		std::pair<unsigned int, unsigned int> m_ReSpawnLocation;
-		bool m_Busy;
-		std::pair<unsigned int, unsigned int> m_Target;
 	};
 }
